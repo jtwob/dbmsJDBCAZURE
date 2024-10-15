@@ -1,3 +1,4 @@
+-- run in azure query editor
 CREATE PROCEDURE InsertFacultyWithDeptSalary
     @fid INT,
     @fname NVARCHAR(50),
