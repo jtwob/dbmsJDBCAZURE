@@ -2,8 +2,6 @@ import java.util.Scanner;
 
 public class JDBCtoAzure {
 
-
-    
     public static void main(String[] args) {
         // Create a Scanner object to read input from the command line (System.in)
         Scanner scanner = new Scanner(System.in);
