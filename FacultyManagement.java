@@ -9,14 +9,14 @@ public class FacultyManagement {
         Connection connection = null;
 
         try {
-            // Establish the database connection
+            // connect to database
             connection = DriverManager.getConnection(url);
             System.out.println("Connected to Azure SQL Database!");
 
             boolean keepRunning = true;
 
             while (keepRunning) {
-                // Display the menu
+                // print menu
                 System.out.println("\nMENU");
                 System.out.println("1. Insert Faculty with Department Salary Logic");
                 System.out.println("2. Insert Faculty with Average Salary Excluding Department");
@@ -25,23 +25,23 @@ public class FacultyManagement {
                 System.out.print("Enter your choice: ");
 
                 int choice = scanner.nextInt();
-                scanner.nextLine(); // consume the newline character
+                scanner.nextLine(); 
 
                 switch (choice) {
                     case 1:
-                        // Insert faculty with department salary logic
+                        // insert faculty with department salary logic
                         insertFacultyWithDeptSalary(connection, scanner);
                         break;
                     case 2:
-                        // Insert faculty with average salary excluding a department
+                        // insert faculty with average salary excluding a department
                         insertFacultyWithAvgExcludingDept(connection, scanner);
                         break;
                     case 3:
-                        // Get all faculty members
+                        // get all faculty members
                         getAllFaculty(connection);
                         break;
                     case 4:
-                        // Quit
+                        // quit
                         keepRunning = false;
                         System.out.println("Exiting...");
                         break;
@@ -63,21 +63,21 @@ public class FacultyManagement {
         }
     }
 
-    // Method to insert faculty with department salary logic
+    // Func to insert faculty with department salary logic
     private static void insertFacultyWithDeptSalary(Connection connection, Scanner scanner) {
         try {
             System.out.print("Enter faculty ID: ");
             int fid = scanner.nextInt();
-            scanner.nextLine(); // consume the newline character
+            scanner.nextLine(); 
 
             System.out.print("Enter faculty name: ");
             String fname = scanner.nextLine();
 
             System.out.print("Enter department ID: ");
             int deptid = scanner.nextInt();
-            scanner.nextLine(); // consume the newline character
+            scanner.nextLine();
 
-            // Call the stored procedure for department-specific salary logic
+            // call T-SQL stored procedure for department-specific salary logic
             CallableStatement callableStatement = connection.prepareCall("{CALL InsertFacultyWithDeptSalary(?, ?, ?)}");
             callableStatement.setInt(1, fid);
             callableStatement.setString(2, fname);
@@ -92,25 +92,25 @@ public class FacultyManagement {
         }
     }
 
-    // Method to insert faculty with average salary excluding a department
+    // Func to insert faculty with average salary excluding a department
     private static void insertFacultyWithAvgExcludingDept(Connection connection, Scanner scanner) {
         try {
             System.out.print("Enter faculty ID: ");
             int fid = scanner.nextInt();
-            scanner.nextLine(); // consume the newline character
+            scanner.nextLine();
 
             System.out.print("Enter faculty name: ");
             String fname = scanner.nextLine();
 
             System.out.print("Enter department ID: ");
             int deptid = scanner.nextInt();
-            scanner.nextLine(); // consume the newline character
+            scanner.nextLine();
 
             System.out.print("Enter department ID to exclude from average salary: ");
             int exclude_deptid = scanner.nextInt();
-            scanner.nextLine(); // consume the newline character
+            scanner.nextLine();
 
-            // Call the stored procedure for average salary excluding a department
+            // call T-SQL stored procedure for average salary excluding a department
             CallableStatement callableStatement = connection
                     .prepareCall("{CALL InsertFacultyWithAvgSalaryExcludingDept(?, ?, ?, ?)}");
             callableStatement.setInt(1, fid);
@@ -127,14 +127,15 @@ public class FacultyManagement {
         }
     }
 
-    // Method to get all faculty members
+    // Func to get all faculty members
     private static void getAllFaculty(Connection connection) {
         try {
-            // Call the stored procedure to get all faculty members
+            // call T-SQL stored procedure to get all faculty members
             CallableStatement callableStatement = connection.prepareCall("{CALL GetAllFaculty}");
 
             ResultSet resultSet = callableStatement.executeQuery();
 
+            // print faculty table nicely
             System.out.println("\nFaculty List:");
             System.out.println("FID\tFName\tDeptID\tSalary");
 
