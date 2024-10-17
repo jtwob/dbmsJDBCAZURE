@@ -2,7 +2,7 @@ import java.sql.*;
 import java.util.Scanner;
 
 public class FacultyManagement {
-    private static final String url = "jdbc:sqlserver://dbms-james.database.windows.net:1433;database=DBMS;user=james@dbms-james;password=121319Aa!;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
+    private static final String url = "jdbc:sqlserver://dbms-james.database.windows.net:1433;database=DBMS;user=james@dbms-james;password=<PASSWORD>;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -30,7 +30,7 @@ public class FacultyManagement {
                 switch (choice) {
                     case 1:
                         // insert faculty with department salary logic
-                        insertFacultyWithDeptSalary(connection, scanner);
+                        insertFacultyWithDeptSalaryAlt(connection, scanner);
                         break;
                     case 2:
                         // insert faculty with average salary excluding a department
@@ -64,7 +64,7 @@ public class FacultyManagement {
     }
 
     // Func to insert faculty with department salary logic
-    private static void insertFacultyWithDeptSalary(Connection connection, Scanner scanner) {
+    private static void insertFacultyWithDeptSalaryAlt(Connection connection, Scanner scanner) {
         try {
             System.out.print("Enter faculty ID: ");
             int fid = scanner.nextInt();
@@ -78,13 +78,13 @@ public class FacultyManagement {
             scanner.nextLine();
 
             // call T-SQL stored procedure for department-specific salary logic
-            CallableStatement callableStatement = connection.prepareCall("{CALL InsertFacultyWithDeptSalary(?, ?, ?)}");
+            CallableStatement callableStatement = connection.prepareCall("{CALL InsertFacultyWithDeptSalaryAlt(?, ?, ?)}");
             callableStatement.setInt(1, fid);
             callableStatement.setString(2, fname);
             callableStatement.setInt(3, deptid);
 
             callableStatement.execute();
-            System.out.println("Faculty inserted successfully with department-specific salary logic!");
+            System.out.println("Faculty inserted successfully with IQ3 alternative department-specific salary logic!");
 
             callableStatement.close();
         } catch (SQLException e) {
